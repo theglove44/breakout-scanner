@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weekly Breakout Scanner — 2026-05-16 13:50</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e0d;
+    --panel: #121815;
+    --panel-2: #1a221e;
+    --line: #232b27;
+    --ink: #e8f0ea;
+    --ink-dim: #8a9690;
+    --ink-mute: #5a665f;
+    --green: #4ade80;
+    --green-bright: #86efac;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --accent: #d4ff00;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.5; }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(212,255,0,0.04), transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(74,222,128,0.03), transparent 40%);
+    min-height: 100vh;
+  }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* Header */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+  }
+  .title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .title em { font-style: italic; color: var(--accent); font-weight: 400; }
+  .subtitle { color: var(--ink-dim); margin-top: 8px; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .asof { text-align: right; color: var(--ink-dim); font-size: 11px; }
+  .asof strong { color: var(--ink); display: block; font-size: 13px; }
+
+  /* Stats strip */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .stat { background: var(--panel); padding: 20px 24px; }
+  .stat-label { color: var(--ink-mute); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+  .stat-value { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 700; line-height: 1; }
+  .stat-value.signal { color: var(--accent); }
+  .stat-value.near { color: var(--amber); }
+  .stat-value.stage1 { color: var(--green); }
+
+  /* Section heading */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .section-head .count { color: var(--ink-mute); font-size: 12px; }
+  .section-head .desc { margin-left: auto; color: var(--ink-dim); font-size: 11px; font-style: italic; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 16px; }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 20px;
+    transition: border-color 120ms;
+  }
+  .card:hover { border-color: var(--ink-mute); }
+  .card.signal { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .card.near { border-left: 3px solid var(--amber); }
+
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .card-ticker { font-family: 'Fraunces', serif; font-weight: 700; font-size: 28px; letter-spacing: -0.01em; }
+  .card-price { margin-left: auto; font-weight: 500; font-size: 16px; }
+  .card-company { color: var(--ink-dim); font-size: 11px; margin-bottom: 16px; }
+  .card-sector { color: var(--ink-mute); }
+
+  /* Box visualisation */
+  .box-viz {
+    background: var(--panel-2);
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    color: var(--ink-dim);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .box-viz div strong { color: var(--ink); display: block; font-size: 13px; }
+
+  /* Rule list */
+  .rules { display: grid; gap: 4px; font-size: 11px; }
+  .rule {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    gap: 8px;
+    align-items: baseline;
+    padding: 3px 0;
+  }
+  .rule-pass { color: var(--green); }
+  .rule-fail { color: var(--red); }
+  .rule-name { color: var(--ink); }
+  .rule-fail .rule-name { color: var(--ink-dim); }
+  .rule-actual { color: var(--ink-mute); font-size: 10px; }
+
+  .rule-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+  }
+  .rule-section-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px; }
+
+  /* Diagnostics section */
+  details.diag {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  details.diag summary {
+    cursor: pointer;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    list-style: none;
+    color: var(--ink-dim);
+  }
+  details.diag summary::before { content: '▸ '; }
+  details.diag[open] summary::before { content: '▾ '; }
+
+  .diag-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .diag-panel { background: var(--panel); border: 1px solid var(--line); padding: 16px; }
+  .diag-panel h4 { margin: 0 0 12px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); }
+  .diag-panel ul { margin: 0; padding: 0; list-style: none; font-size: 11px; }
+  .diag-panel li { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--panel-2); }
+  .diag-panel li:last-child { border-bottom: none; }
+  .diag-panel li strong { color: var(--ink); }
+
+  /* Config display */
+  .config-block {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 16px 20px;
+    margin-top: 16px;
+    font-size: 11px;
+  }
+  .config-block table { width: 100%; border-collapse: collapse; }
+  .config-block td { padding: 4px 12px 4px 0; }
+  .config-block td:first-child { color: var(--ink-dim); }
+  .config-block td:last-child { font-weight: 500; }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--ink-dim);
+    font-style: italic;
+  }
+
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-mute);
+    font-size: 10px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div>
+      <h1 class="title">Breakout <em>Scanner</em></h1>
+      <div class="subtitle">Weekly DITM Strategy · S&amp;P 500 universe</div>
+    </div>
+    <div class="asof">
+      <strong>2026-05-16 13:50</strong>
+      As of run time
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Universe scanned</div>
+      <div class="stat-value">502</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Full signals</div>
+      <div class="stat-value signal">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Near misses</div>
+      <div class="stat-value near">1</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Stage 1 pass</div>
+      <div class="stat-value stage1">8</div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Signals</h2><span class="count">— none —</span><span class="desc">All Stage 1 + Stage 2 rules passed — eligible for Monday open entry</span></div>
+
+  
+        <div class="section-head">
+          <h2>Near misses</h2>
+          <span class="count">1</span>
+          <span class="desc">Stage 1 passed; one Stage 2 rule failed by a small margin — worth watching</span>
+        </div>
+        <div class="cards">
+    <div class="card near">
+      <div class="card-head">
+        <div class="card-ticker">COST</div>
+        <div class="card-price">$1048.95</div>
+      </div>
+      <div class="card-company">Costco · <span class="card-sector">Consumer Staples · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$959.07</strong></div>
+          <div>Resistance<strong>$1034.32</strong></div>
+          <div>Stop (midpt)<strong>$996.69</strong></div>
+          <div>Weeks<strong>13</strong></div>
+          <div>Range<strong>7.5%</strong></div>
+          <div>Last close<strong>$1048.95</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$1008.79 / $976.44</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">13wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.373</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-pass"><span>✓</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">1.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">4.0%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.21x</span></div>
+        </div>
+      </div>
+    </div>
+    </div>
+        
+
+  
+        <div class="section-head">
+          <h2>Stage 1 watchlist</h2>
+          <span class="count">7</span>
+          <span class="desc">Structurally eligible; not yet broken out</span>
+        </div>
+        <div class="cards">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">LNT</div>
+        <div class="card-price">$70.90</div>
+      </div>
+      <div class="card-company">Alliant Energy · <span class="card-sector">Utilities · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$70.04</strong></div>
+          <div>Resistance<strong>$75.20</strong></div>
+          <div>Stop (midpt)<strong>$72.62</strong></div>
+          <div>Weeks<strong>6</strong></div>
+          <div>Range<strong>7.1%</strong></div>
+          <div>Last close<strong>$70.90</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$71.76 / $69.23</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.132</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-5.7%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-1.2%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.95x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">AEE</div>
+        <div class="card-price">$106.36</div>
+      </div>
+      <div class="card-company">Ameren · <span class="card-sector">Utilities · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$107.70</strong></div>
+          <div>Resistance<strong>$115.59</strong></div>
+          <div>Stop (midpt)<strong>$111.64</strong></div>
+          <div>Weeks<strong>6</strong></div>
+          <div>Range<strong>7.0%</strong></div>
+          <div>Last close<strong>$106.36</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$109.07 / $107.55</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.031</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-8.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-2.5%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.32x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">AEP</div>
+        <div class="card-price">$125.15</div>
+      </div>
+      <div class="card-company">American Electric Power · <span class="card-sector">Utilities · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$128.95</strong></div>
+          <div>Resistance<strong>$138.43</strong></div>
+          <div>Stop (midpt)<strong>$133.69</strong></div>
+          <div>Weeks<strong>6</strong></div>
+          <div>Range<strong>7.1%</strong></div>
+          <div>Last close<strong>$125.15</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$129.22 / $125.93</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.006</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-9.6%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-3.2%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">2.66x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">ETR</div>
+        <div class="card-price">$109.03</div>
+      </div>
+      <div class="card-company">Entergy · <span class="card-sector">Utilities · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$108.96</strong></div>
+          <div>Resistance<strong>$118.11</strong></div>
+          <div>Stop (midpt)<strong>$113.53</strong></div>
+          <div>Weeks<strong>6</strong></div>
+          <div>Range<strong>8.0%</strong></div>
+          <div>Last close<strong>$109.03</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$111.59 / $103.64</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.715</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-7.7%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-2.3%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.72x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">PNW</div>
+        <div class="card-price">$98.40</div>
+      </div>
+      <div class="card-company">Pinnacle West Capital · <span class="card-sector">Utilities · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$95.90</strong></div>
+          <div>Resistance<strong>$104.00</strong></div>
+          <div>Stop (midpt)<strong>$99.95</strong></div>
+          <div>Weeks<strong>11</strong></div>
+          <div>Range<strong>8.0%</strong></div>
+          <div>Last close<strong>$98.40</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$98.38 / $96.55</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">11wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.092</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-5.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">0.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.09x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">LIN</div>
+        <div class="card-price">$506.11</div>
+      </div>
+      <div class="card-company">Linde plc · <span class="card-sector">Materials · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$482.77</strong></div>
+          <div>Resistance<strong>$521.28</strong></div>
+          <div>Stop (midpt)<strong>$502.03</strong></div>
+          <div>Weeks<strong>6</strong></div>
+          <div>Range<strong>7.7%</strong></div>
+          <div>Last close<strong>$506.11</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$493.16 / $476.40</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.026</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-2.9%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">2.6%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.16x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">NI</div>
+        <div class="card-price">$46.30</div>
+      </div>
+      <div class="card-company">NiSource · <span class="card-sector">Utilities · —</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$45.87</strong></div>
+          <div>Resistance<strong>$48.71</strong></div>
+          <div>Stop (midpt)<strong>$47.29</strong></div>
+          <div>Weeks<strong>6</strong></div>
+          <div>Range<strong>5.9%</strong></div>
+          <div>Last close<strong>$46.30</strong></div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$46.72 / $45.29</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.055</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-4.9%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-0.9%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.68x</span></div>
+        </div>
+      </div>
+    </div>
+    </div>
+        
+
+  <details class="diag">
+    <summary>Diagnostics &amp; Config</summary>
+
+    <div class="diag-grid">
+      <div class="diag-panel">
+        <h4>Stage 1 — First Failure Reason</h4>
+        <ul>
+          <li><span>Close > 20wk MA</span><strong>265</strong></li><li><span>≥6wk consolidation box</span><strong>223</strong></li><li><span>MACD > signal (pre-breakout)</span><strong>6</strong></li>
+        </ul>
+      </div>
+      <div class="diag-panel">
+        <h4>Active Configuration</h4>
+        <ul>
+          <li><span>Min market cap</span><strong>$25B</strong></li><li><span>Trend MA</span><strong>20 weeks</strong></li><li><span>Min consolidation</span><strong>6 weeks</strong></li><li><span>Max box range</span><strong>8%</strong></li><li><span>Min above resistance</span><strong>1%</strong></li><li><span>Weekly gain range</span><strong>5%–20%</strong></li><li><span>Max upper wick</span><strong>25%</strong></li><li><span>N-week high</span><strong>10 weeks</strong></li><li><span>Min volume ratio</span><strong>1.30x</strong></li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <footer>Run 2026-05-16 13:50 · Data: yfinance · Strategy: Weekly Breakout SOP</footer>
+</div>
+</body>
+</html>
