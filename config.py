@@ -16,13 +16,21 @@ TREND_MA_WEEKS = 20
 
 # Step 1.3 — Consolidation ("box") parameters.
 CONSOLIDATION_MIN_WEEKS = 6
-# The box must be "lateral" — defined as the high-to-low range across
-# the consolidation window being no wider than this % of the median
-# price. Tighter = fewer but cleaner boxes. The SOP doesn't specify
-# this; 8% is a sensible starting point for large caps.
-CONSOLIDATION_MAX_RANGE_PCT = 0.08
 
-# Step 1.4 — MACD parameters. Standard 12/26/9 on weekly bars.
+# Box is now drawn through weekly CLOSES, not high/low extremes.
+# Resistance = max close in window, Support = min close in window.
+# Box depth = (resistance - support) / support. Must be < 20% per SOP.
+CONSOLIDATION_MAX_DEPTH = 0.20  # 20%
+
+# Step 1.4 — Volume contraction during consolidation.
+# Two tests; both must pass.
+#   Trend test: linear regression slope of volume across the box
+#   must be negative (declining).
+#   Red-week test: avg volume on down-close weeks within the box
+#   must be lower than avg volume on up-close weeks.
+# Both are derived directly from the SOP wording.
+
+# Step 1.5 — MACD parameters. Standard 12/26/9 on weekly bars.
 MACD_FAST = 12
 MACD_SLOW = 26
 MACD_SIGNAL = 9
@@ -30,7 +38,7 @@ MACD_SIGNAL = 9
 # ── Stage 2: Breakout Confirmation ───────────────────────────────────
 
 # Step 2.1 — Breakout candle must close at least this % above the
-# consolidation resistance line.
+# closes-based resistance line.
 BREAKOUT_MIN_CLOSE_ABOVE_RESISTANCE = 0.01  # 1%
 
 # Step 2.1 — Weekly gain must fall within this range.
@@ -39,15 +47,31 @@ BREAKOUT_MAX_WEEKLY_GAIN = 0.20  # 20%
 
 # Step 2.2 — Candle structure. Upper wick must be no larger than this
 # fraction of the total weekly range (high − low). Smaller = stronger
-# close-on-the-high. The SOP says "small fraction"; 25% is a reasonable
-# interpretation.
+# close-on-the-high. The SOP says "very small upper wick"; 25% is a
+# reasonable interpretation.
 MAX_UPPER_WICK_RATIO = 0.25
 
-# Step 2.3 — Multi-week high lookback.
+# Step 2.3 — Multi-week high lookback. Evaluated against CLOSES.
 MULTI_WEEK_HIGH_LOOKBACK = 10
 
 # Step 2.4 — Volume must be at least this multiple of the prior week.
 MIN_VOLUME_RATIO = 1.30  # 30% higher
+
+# ── Stage 5: Risk Management ─────────────────────────────────────────
+
+# Step 5.1 — Stop-loss placement.
+# Box divided into thirds; stop sits in "lower part of middle section".
+# 0.40 means 40% of the way up from support to resistance.
+# (Middle third spans 33%–67%; 40% is the lower part of that range.)
+STOP_LOSS_BOX_POSITION = 0.40
+
+# Step 5.1 — Risk-distance rules. Entry-to-stop distance, expressed
+# as a percentage of entry price.
+#   <= SAFE          → full 6% allocation OK
+#   SAFE..ABORT      → reduce size below 6%
+#   > ABORT          → abort the trade
+RISK_DIST_SAFE = 0.15      # 15%
+RISK_DIST_ABORT = 0.18     # 18%; between 15-18% means "reduce size"
 
 # ── Data fetching ────────────────────────────────────────────────────
 
@@ -63,7 +87,6 @@ CACHE_TTL_HOURS = 24
 
 # ── Near-miss reporting ──────────────────────────────────────────────
 
-# A "near miss" is a name that passed Stage 1 but failed Stage 2 by
-# this margin or less on any single rule. Surfaces names worth watching
-# next week and helps with parameter tuning.
+# A "near miss" is a name that passed Stage 1 and failed Stage 2 with
+# no more than 2 rules outside threshold, each within this margin.
 NEAR_MISS_MARGIN = 0.25  # within 25% of the threshold

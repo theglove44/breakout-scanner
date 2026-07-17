@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Weekly Breakout Scanner — 2026-05-16 13:50</title>
+<title>Weekly Breakout Scanner — 2026-05-17 07:48</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&display=swap" rel="stylesheet">
@@ -152,6 +152,28 @@
   }
   .rule-section-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px; }
 
+  /* Risk verdict block — under box-viz */
+  .risk-block {
+    background: var(--panel-2);
+    border-left: 3px solid var(--ink-mute);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 11px;
+  }
+  .risk-block.risk-safe { border-left-color: var(--green); }
+  .risk-block.risk-reduce { border-left-color: var(--amber); }
+  .risk-block.risk-abort { border-left-color: var(--red); }
+  .risk-label { color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; font-size: 9px; }
+  .risk-distance { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--ink); }
+  .risk-safe .risk-distance { color: var(--green); }
+  .risk-reduce .risk-distance { color: var(--amber); }
+  .risk-abort .risk-distance { color: var(--red); }
+  .risk-verdict { color: var(--ink-dim); text-align: right; font-size: 10px; }
+
   /* Diagnostics section */
   details.diag {
     margin-top: 48px;
@@ -223,7 +245,7 @@
       <div class="subtitle">Weekly DITM Strategy · S&amp;P 500 universe</div>
     </div>
     <div class="asof">
-      <strong>2026-05-16 13:50</strong>
+      <strong>2026-05-17 07:48</strong>
       As of run time
     </div>
   </header>
@@ -239,11 +261,11 @@
     </div>
     <div class="stat">
       <div class="stat-label">Near misses</div>
-      <div class="stat-value near">1</div>
+      <div class="stat-value near">2</div>
     </div>
     <div class="stat">
       <div class="stat-label">Stage 1 pass</div>
-      <div class="stat-value stage1">8</div>
+      <div class="stat-value stage1">21</div>
     </div>
   </div>
 
@@ -252,31 +274,69 @@
   
         <div class="section-head">
           <h2>Near misses</h2>
-          <span class="count">1</span>
+          <span class="count">2</span>
           <span class="desc">Stage 1 passed; one Stage 2 rule failed by a small margin — worth watching</span>
         </div>
         <div class="cards">
     <div class="card near">
       <div class="card-head">
-        <div class="card-ticker">COST</div>
-        <div class="card-price">$1048.95</div>
+        <div class="card-ticker">MPC</div>
+        <div class="card-price">$255.03</div>
       </div>
-      <div class="card-company">Costco · <span class="card-sector">Consumer Staples · —</span></div>
+      <div class="card-company">Marathon Petroleum · <span class="card-sector">Energy · $74B</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$959.07</strong></div>
-          <div>Resistance<strong>$1034.32</strong></div>
-          <div>Stop (midpt)<strong>$996.69</strong></div>
-          <div>Weeks<strong>13</strong></div>
-          <div>Range<strong>7.5%</strong></div>
-          <div>Last close<strong>$1048.95</strong></div>
+          <div>Support<strong>$213.69</strong></div>
+          <div>Resistance<strong>$251.91</strong></div>
+          <div>Stop (40%)<strong>$228.98</strong></div>
+          <div>Weeks<strong>10</strong></div>
+          <div>Depth<strong>17.9%</strong></div>
+          <div>Last close<strong>$255.03</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">10.2%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$1008.79 / $976.44</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">13wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.373</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$74B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$244.87 / $207.52</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">10wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.389</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-pass"><span>✓</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">1.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">4.0%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.21x</span></div>
+          <div class="rule rule-pass"><span>✓</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">1.2%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">4.1%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.24x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card near">
+      <div class="card-head">
+        <div class="card-ticker">TRGP</div>
+        <div class="card-price">$271.99</div>
+      </div>
+      <div class="card-company">Targa Resources · <span class="card-sector">Energy · $58B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$222.77</strong></div>
+          <div>Resistance<strong>$253.01</strong></div>
+          <div>Stop (40%)<strong>$234.87</strong></div>
+          <div>Weeks<strong>13</strong></div>
+          <div>Depth<strong>13.6%</strong></div>
+          <div>Last close<strong>$271.99</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">13.6%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$58B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$248.12 / $221.56</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">13wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.898</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-pass"><span>✓</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">7.5%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">9.6%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.27x</span></div>
         </div>
       </div>
     </div>
@@ -286,31 +346,37 @@
   
         <div class="section-head">
           <h2>Stage 1 watchlist</h2>
-          <span class="count">7</span>
+          <span class="count">19</span>
           <span class="desc">Structurally eligible; not yet broken out</span>
         </div>
         <div class="cards">
     <div class="card">
       <div class="card-head">
-        <div class="card-ticker">LNT</div>
-        <div class="card-price">$70.90</div>
+        <div class="card-ticker">AFL</div>
+        <div class="card-price">$116.81</div>
       </div>
-      <div class="card-company">Alliant Energy · <span class="card-sector">Utilities · —</span></div>
+      <div class="card-company">Aflac · <span class="card-sector">Financials · $59B</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$70.04</strong></div>
-          <div>Resistance<strong>$75.20</strong></div>
-          <div>Stop (midpt)<strong>$72.62</strong></div>
-          <div>Weeks<strong>6</strong></div>
-          <div>Range<strong>7.1%</strong></div>
-          <div>Last close<strong>$70.90</strong></div>
+          <div>Support<strong>$101.88</strong></div>
+          <div>Resistance<strong>$116.53</strong></div>
+          <div>Stop (40%)<strong>$107.74</strong></div>
+          <div>Weeks<strong>40</strong></div>
+          <div>Depth<strong>14.4%</strong></div>
+          <div>Last close<strong>$116.81</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">7.8%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$71.76 / $69.23</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.132</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$59B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$113.10 / $110.98</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">40wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.170</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-5.7%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-1.2%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.95x</span></div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">0.2%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">3.3%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.06x</span></div>
         </div>
       </div>
     </div>
@@ -318,25 +384,31 @@
 
     <div class="card">
       <div class="card-head">
-        <div class="card-ticker">AEE</div>
-        <div class="card-price">$106.36</div>
+        <div class="card-ticker">APD</div>
+        <div class="card-price">$295.38</div>
       </div>
-      <div class="card-company">Ameren · <span class="card-sector">Utilities · —</span></div>
+      <div class="card-company">Air Products · <span class="card-sector">Materials · $66B</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$107.70</strong></div>
-          <div>Resistance<strong>$115.59</strong></div>
-          <div>Stop (midpt)<strong>$111.64</strong></div>
-          <div>Weeks<strong>6</strong></div>
-          <div>Range<strong>7.0%</strong></div>
-          <div>Last close<strong>$106.36</strong></div>
+          <div>Support<strong>$259.72</strong></div>
+          <div>Resistance<strong>$301.76</strong></div>
+          <div>Stop (40%)<strong>$276.54</strong></div>
+          <div>Weeks<strong>18</strong></div>
+          <div>Depth<strong>16.2%</strong></div>
+          <div>Last close<strong>$295.38</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">6.4%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$109.07 / $107.55</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.031</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$66B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$295.41 / $278.46</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">18wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.536</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-8.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-2.5%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.32x</span></div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-2.1%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-0.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.45x</span></div>
         </div>
       </div>
     </div>
@@ -344,25 +416,31 @@
 
     <div class="card">
       <div class="card-head">
-        <div class="card-ticker">AEP</div>
-        <div class="card-price">$125.15</div>
+        <div class="card-ticker">ALL</div>
+        <div class="card-price">$217.37</div>
       </div>
-      <div class="card-company">American Electric Power · <span class="card-sector">Utilities · —</span></div>
+      <div class="card-company">Allstate · <span class="card-sector">Financials · $56B</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$128.95</strong></div>
-          <div>Resistance<strong>$138.43</strong></div>
-          <div>Stop (midpt)<strong>$133.69</strong></div>
-          <div>Weeks<strong>6</strong></div>
-          <div>Range<strong>7.1%</strong></div>
-          <div>Last close<strong>$125.15</strong></div>
+          <div>Support<strong>$182.97</strong></div>
+          <div>Resistance<strong>$216.59</strong></div>
+          <div>Stop (40%)<strong>$196.42</strong></div>
+          <div>Weeks<strong>59</strong></div>
+          <div>Depth<strong>18.4%</strong></div>
+          <div>Last close<strong>$217.37</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">9.6%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$129.22 / $125.93</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.006</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$56B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$213.15 / $206.85</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">59wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.829</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-9.6%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-3.2%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">2.66x</span></div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">0.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">2.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.98x</span></div>
         </div>
       </div>
     </div>
@@ -370,25 +448,31 @@
 
     <div class="card">
       <div class="card-head">
-        <div class="card-ticker">ETR</div>
-        <div class="card-price">$109.03</div>
+        <div class="card-ticker">AAPL</div>
+        <div class="card-price">$300.23</div>
       </div>
-      <div class="card-company">Entergy · <span class="card-sector">Utilities · —</span></div>
+      <div class="card-company">Apple Inc. · <span class="card-sector">Information Technology · $4.4T</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$108.96</strong></div>
-          <div>Resistance<strong>$118.11</strong></div>
-          <div>Stop (midpt)<strong>$113.53</strong></div>
-          <div>Weeks<strong>6</strong></div>
-          <div>Range<strong>8.0%</strong></div>
-          <div>Last close<strong>$109.03</strong></div>
+          <div>Support<strong>$244.58</strong></div>
+          <div>Resistance<strong>$293.05</strong></div>
+          <div>Stop (40%)<strong>$263.97</strong></div>
+          <div>Weeks<strong>34</strong></div>
+          <div>Depth<strong>19.8%</strong></div>
+          <div>Last close<strong>$300.23</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">12.1%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$111.59 / $103.64</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.715</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$4410B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$293.05 / $262.91</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">34wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.158</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-7.7%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-2.3%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.72x</span></div>
+          <div class="rule rule-pass"><span>✓</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">2.5%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">2.5%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.13x</span></div>
         </div>
       </div>
     </div>
@@ -396,25 +480,31 @@
 
     <div class="card">
       <div class="card-head">
-        <div class="card-ticker">PNW</div>
-        <div class="card-price">$98.40</div>
+        <div class="card-ticker">BKR</div>
+        <div class="card-price">$64.12</div>
       </div>
-      <div class="card-company">Pinnacle West Capital · <span class="card-sector">Utilities · —</span></div>
+      <div class="card-company">Baker Hughes · <span class="card-sector">Energy · $64B</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$95.90</strong></div>
-          <div>Resistance<strong>$104.00</strong></div>
-          <div>Stop (midpt)<strong>$99.95</strong></div>
-          <div>Weeks<strong>11</strong></div>
-          <div>Range<strong>8.0%</strong></div>
-          <div>Last close<strong>$98.40</strong></div>
+          <div>Support<strong>$59.58</strong></div>
+          <div>Resistance<strong>$68.89</strong></div>
+          <div>Stop (40%)<strong>$63.30</strong></div>
+          <div>Weeks<strong>8</strong></div>
+          <div>Depth<strong>15.6%</strong></div>
+          <div>Last close<strong>$64.12</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">1.3%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$98.38 / $96.55</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">11wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.092</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$64B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$63.68 / $58.43</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">8wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.361</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-5.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">0.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.09x</span></div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-6.9%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">0.7%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.00x</span></div>
         </div>
       </div>
     </div>
@@ -422,25 +512,31 @@
 
     <div class="card">
       <div class="card-head">
-        <div class="card-ticker">LIN</div>
-        <div class="card-price">$506.11</div>
+        <div class="card-ticker">CSX</div>
+        <div class="card-price">$45.66</div>
       </div>
-      <div class="card-company">Linde plc · <span class="card-sector">Materials · —</span></div>
+      <div class="card-company">CSX Corporation · <span class="card-sector">Industrials · $85B</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$482.77</strong></div>
-          <div>Resistance<strong>$521.28</strong></div>
-          <div>Stop (midpt)<strong>$502.03</strong></div>
-          <div>Weeks<strong>6</strong></div>
-          <div>Range<strong>7.7%</strong></div>
-          <div>Last close<strong>$506.11</strong></div>
+          <div>Support<strong>$38.17</strong></div>
+          <div>Resistance<strong>$45.41</strong></div>
+          <div>Stop (40%)<strong>$41.07</strong></div>
+          <div>Weeks<strong>14</strong></div>
+          <div>Depth<strong>19.0%</strong></div>
+          <div>Last close<strong>$45.66</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">10.1%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$493.16 / $476.40</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.026</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$85B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$44.83 / $40.16</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">14wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.404</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-2.9%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">2.6%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.16x</span></div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">0.6%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">1.9%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.56x</span></div>
         </div>
       </div>
     </div>
@@ -448,25 +544,415 @@
 
     <div class="card">
       <div class="card-head">
-        <div class="card-ticker">NI</div>
-        <div class="card-price">$46.30</div>
+        <div class="card-ticker">DAL</div>
+        <div class="card-price">$70.23</div>
       </div>
-      <div class="card-company">NiSource · <span class="card-sector">Utilities · —</span></div>
+      <div class="card-company">Delta Air Lines · <span class="card-sector">Industrials · $46B</span></div>
       
         <div class="box-viz">
-          <div>Support<strong>$45.87</strong></div>
-          <div>Resistance<strong>$48.71</strong></div>
-          <div>Stop (midpt)<strong>$47.29</strong></div>
-          <div>Weeks<strong>6</strong></div>
-          <div>Range<strong>5.9%</strong></div>
-          <div>Last close<strong>$46.30</strong></div>
+          <div>Support<strong>$63.27</strong></div>
+          <div>Resistance<strong>$73.14</strong></div>
+          <div>Stop (40%)<strong>$67.22</strong></div>
+          <div>Weeks<strong>8</strong></div>
+          <div>Depth<strong>15.6%</strong></div>
+          <div>Last close<strong>$70.23</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">4.3%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
         </div>
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
-        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$0B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$46.72 / $45.29</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk consolidation box</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.055</span></div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$46B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$73.14 / $67.68</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">8wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.163</span></div>
         <div class="rule-section">
           <div class="rule-section-label">Stage 2 · Breakout</div>
-          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-4.9%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-0.9%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.68x</span></div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-4.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-4.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.93x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">DLR</div>
+        <div class="card-price">$188.51</div>
+      </div>
+      <div class="card-company">Digital Realty · <span class="card-sector">Real Estate · $66B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$170.46</strong></div>
+          <div>Resistance<strong>$203.62</strong></div>
+          <div>Stop (40%)<strong>$183.72</strong></div>
+          <div>Weeks<strong>14</strong></div>
+          <div>Depth<strong>19.5%</strong></div>
+          <div>Last close<strong>$188.51</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">2.5%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$66B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$195.31 / $176.19</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">14wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+2.724</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-7.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-3.5%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.44x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">FANG</div>
+        <div class="card-price">$203.56</div>
+      </div>
+      <div class="card-company">Diamondback Energy · <span class="card-sector">Energy · $57B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$172.10</strong></div>
+          <div>Resistance<strong>$206.51</strong></div>
+          <div>Stop (40%)<strong>$185.87</strong></div>
+          <div>Weeks<strong>12</strong></div>
+          <div>Depth<strong>20.0%</strong></div>
+          <div>Last close<strong>$203.56</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">8.7%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$57B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$187.67 / $174.13</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">12wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+1.145</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-1.4%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">8.5%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.65x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">EOG</div>
+        <div class="card-price">$140.26</div>
+      </div>
+      <div class="card-company">EOG Resources · <span class="card-sector">Energy · $75B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$127.44</strong></div>
+          <div>Resistance<strong>$148.41</strong></div>
+          <div>Stop (40%)<strong>$135.83</strong></div>
+          <div>Weeks<strong>10</strong></div>
+          <div>Depth<strong>16.5%</strong></div>
+          <div>Last close<strong>$140.26</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">3.2%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$75B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$130.03 / $123.29</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">10wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.572</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-5.5%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">7.9%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.82x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">HAL</div>
+        <div class="card-price">$41.76</div>
+      </div>
+      <div class="card-company">Halliburton · <span class="card-sector">Energy · $35B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$36.53</strong></div>
+          <div>Resistance<strong>$41.66</strong></div>
+          <div>Stop (40%)<strong>$38.58</strong></div>
+          <div>Weeks<strong>8</strong></div>
+          <div>Depth<strong>14.0%</strong></div>
+          <div>Last close<strong>$41.76</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">7.6%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$35B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$39.83 / $35.40</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">8wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.219</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">0.2%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">4.8%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.13x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">KDP</div>
+        <div class="card-price">$28.93</div>
+      </div>
+      <div class="card-company">Keurig Dr Pepper · <span class="card-sector">Consumer Staples · $39B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$25.31</strong></div>
+          <div>Resistance<strong>$30.01</strong></div>
+          <div>Stop (40%)<strong>$27.19</strong></div>
+          <div>Weeks<strong>32</strong></div>
+          <div>Depth<strong>18.6%</strong></div>
+          <div>Last close<strong>$28.93</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">6.0%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$39B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$28.83 / $27.71</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">32wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.251</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-3.6%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">0.3%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.08x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">MAR</div>
+        <div class="card-price">$353.17</div>
+      </div>
+      <div class="card-company">Marriott International · <span class="card-sector">Consumer Discretionary · $93B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$317.54</strong></div>
+          <div>Resistance<strong>$377.93</strong></div>
+          <div>Stop (40%)<strong>$341.70</strong></div>
+          <div>Weeks<strong>8</strong></div>
+          <div>Depth<strong>19.0%</strong></div>
+          <div>Last close<strong>$353.17</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">3.2%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$93B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$353.18 / $335.13</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">8wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.991</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-6.6%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-0.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.10x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">MS</div>
+        <div class="card-price">$192.51</div>
+      </div>
+      <div class="card-company">Morgan Stanley · <span class="card-sector">Financials · $304B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$164.92</strong></div>
+          <div>Resistance<strong>$193.09</strong></div>
+          <div>Stop (40%)<strong>$176.19</strong></div>
+          <div>Weeks<strong>6</strong></div>
+          <div>Depth<strong>17.1%</strong></div>
+          <div>Last close<strong>$192.51</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">8.5%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$304B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$193.09 / $175.44</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">6wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+1.617</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-0.3%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-0.3%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.19x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">OKE</div>
+        <div class="card-price">$92.32</div>
+      </div>
+      <div class="card-company">Oneok · <span class="card-sector">Energy · $58B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$79.78</strong></div>
+          <div>Resistance<strong>$92.85</strong></div>
+          <div>Stop (40%)<strong>$85.01</strong></div>
+          <div>Weeks<strong>14</strong></div>
+          <div>Depth<strong>16.4%</strong></div>
+          <div>Last close<strong>$92.32</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">7.9%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$58B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$84.15 / $81.96</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">14wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.087</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-0.6%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">9.7%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.05x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">ROST</div>
+        <div class="card-price">$212.75</div>
+      </div>
+      <div class="card-company">Ross Stores · <span class="card-sector">Consumer Discretionary · $69B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$196.12</strong></div>
+          <div>Resistance<strong>$228.84</strong></div>
+          <div>Stop (40%)<strong>$209.21</strong></div>
+          <div>Weeks<strong>13</strong></div>
+          <div>Depth<strong>16.7%</strong></div>
+          <div>Last close<strong>$212.75</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">1.7%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$69B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$225.81 / $205.26</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">13wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.758</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-7.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">-5.8%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.49x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">SLB</div>
+        <div class="card-price">$55.38</div>
+      </div>
+      <div class="card-company">Schlumberger · <span class="card-sector">Energy · $83B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$49.44</strong></div>
+          <div>Resistance<strong>$56.92</strong></div>
+          <div>Stop (40%)<strong>$52.43</strong></div>
+          <div>Weeks<strong>7</strong></div>
+          <div>Depth<strong>15.1%</strong></div>
+          <div>Last close<strong>$55.38</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">5.3%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$83B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$53.27 / $49.03</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">7wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.318</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-2.7%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">4.0%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">1.04x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">VLO</div>
+        <div class="card-price">$250.74</div>
+      </div>
+      <div class="card-company">Valero Energy · <span class="card-sector">Energy · $74B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$223.65</strong></div>
+          <div>Resistance<strong>$254.32</strong></div>
+          <div>Stop (40%)<strong>$235.92</strong></div>
+          <div>Weeks<strong>10</strong></div>
+          <div>Depth<strong>13.7%</strong></div>
+          <div>Last close<strong>$250.74</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">5.9%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$74B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$241.06 / $212.34</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">10wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+0.884</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-fail"><span>✗</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">-1.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">4.0%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">no</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.99x</span></div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-ticker">GWW</div>
+        <div class="card-price">$1272.47</div>
+      </div>
+      <div class="card-company">W. W. Grainger · <span class="card-sector">Industrials · $60B</span></div>
+      
+        <div class="box-viz">
+          <div>Support<strong>$1039.85</strong></div>
+          <div>Resistance<strong>$1231.22</strong></div>
+          <div>Stop (40%)<strong>$1116.40</strong></div>
+          <div>Weeks<strong>17</strong></div>
+          <div>Depth<strong>18.4%</strong></div>
+          <div>Last close<strong>$1272.47</strong></div>
+        </div>
+      
+        <div class="risk-block risk-safe">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">12.3%</div>
+          <div class="risk-verdict">Safe · full 6% allocation</div>
+        </div>
+      <div class="rules">
+        <div class="rule-section-label">Stage 1 · Eligibility</div>
+        <div class="rule rule-pass"><span>✓</span><span class="rule-name">Market cap > $25B</span><span class="rule-actual">$60B</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close > 20wk MA</span><span class="rule-actual">$1231.22 / $1103.65</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">≥6wk box, depth <20%</span><span class="rule-actual">17wk</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Volume contraction in box</span><span class="rule-actual">pass</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">MACD > signal (pre-breakout)</span><span class="rule-actual">+8.366</span></div>
+        <div class="rule-section">
+          <div class="rule-section-label">Stage 2 · Breakout</div>
+          <div class="rule rule-pass"><span>✓</span><span class="rule-name">Close ≥1% above resistance</span><span class="rule-actual">3.4%</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Weekly gain 5%–20%</span><span class="rule-actual">3.4%</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">Close near weekly high</span><span class="rule-actual">no</span></div><div class="rule rule-pass"><span>✓</span><span class="rule-name">10-week high (by close)</span><span class="rule-actual">yes</span></div><div class="rule rule-fail"><span>✗</span><span class="rule-name">Volume ≥130% of prior week</span><span class="rule-actual">0.88x</span></div>
         </div>
       </div>
     </div>
@@ -480,19 +966,19 @@
       <div class="diag-panel">
         <h4>Stage 1 — First Failure Reason</h4>
         <ul>
-          <li><span>Close > 20wk MA</span><strong>265</strong></li><li><span>≥6wk consolidation box</span><strong>223</strong></li><li><span>MACD > signal (pre-breakout)</span><strong>6</strong></li>
+          <li><span>Close > 20wk MA</span><strong>168</strong></li><li><span>Market cap > $25B</span><strong>161</strong></li><li><span>Volume contraction in box</span><strong>71</strong></li><li><span>≥6wk box, depth <20%</span><strong>64</strong></li><li><span>MACD > signal (pre-breakout)</span><strong>17</strong></li>
         </ul>
       </div>
       <div class="diag-panel">
         <h4>Active Configuration</h4>
         <ul>
-          <li><span>Min market cap</span><strong>$25B</strong></li><li><span>Trend MA</span><strong>20 weeks</strong></li><li><span>Min consolidation</span><strong>6 weeks</strong></li><li><span>Max box range</span><strong>8%</strong></li><li><span>Min above resistance</span><strong>1%</strong></li><li><span>Weekly gain range</span><strong>5%–20%</strong></li><li><span>Max upper wick</span><strong>25%</strong></li><li><span>N-week high</span><strong>10 weeks</strong></li><li><span>Min volume ratio</span><strong>1.30x</strong></li>
+          <li><span>Min market cap</span><strong>$25B</strong></li><li><span>Trend MA</span><strong>20 weeks</strong></li><li><span>Min consolidation</span><strong>6 weeks</strong></li><li><span>Max box depth</span><strong>20%</strong></li><li><span>Min above resistance</span><strong>1%</strong></li><li><span>Weekly gain range</span><strong>5%–20%</strong></li><li><span>Max upper wick</span><strong>25%</strong></li><li><span>N-week high (close-based)</span><strong>10 weeks</strong></li><li><span>Min volume ratio</span><strong>1.30x</strong></li><li><span>Stop position in box</span><strong>40%</strong></li><li><span>Risk: safe / abort</span><strong>15% / 18%</strong></li>
         </ul>
       </div>
     </div>
   </details>
 
-  <footer>Run 2026-05-16 13:50 · Data: yfinance · Strategy: Weekly Breakout SOP</footer>
+  <footer>Run 2026-05-17 07:48 · Data: yfinance · Strategy: Weekly Breakout SOP</footer>
 </div>
 </body>
 </html>

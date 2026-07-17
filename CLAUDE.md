@@ -1,5 +1,10 @@
 # breakout-scanner
 
+This project is ONLY the weekly-box/DITM-options SOP scanner. The VCP
+(Volatility Contraction Pattern) scanner briefly lived here as `vcp_*` files
+but was split out to `~/Projects/vcp-scanner/` on 2026-07-04 — don't recreate
+VCP code here.
+
 Weekly breakout scanner for the S&P 500, based on a written SOP (`rules.md`):
 Stage 1 pre-screens for liquidity, trend, a multi-week consolidation "box",
 volume contraction, and MACD; Stage 2 confirms breakout candles (close above

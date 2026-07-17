@@ -12,7 +12,8 @@ import pandas as pd
 import config
 from indicators import (
     moving_average, macd, detect_box, compute_breakout_metrics,
-    Box, BreakoutMetrics,
+    check_volume_contraction, assess_risk_distance,
+    Box, BreakoutMetrics, VolumeContraction, RiskAssessment,
 )
 
 
@@ -48,6 +49,12 @@ class ScanResult:
     stage2_passed: bool = False
     breakout_metrics: Optional[BreakoutMetrics] = None
 
+    # Volume contraction diagnostic (populated when box exists)
+    volume_contraction: Optional[VolumeContraction] = None
+
+    # Risk assessment (populated when box exists)
+    risk: Optional[RiskAssessment] = None
+
     # Last close (for the dashboard)
     last_close: Optional[float] = None
 
@@ -82,7 +89,8 @@ class ScanResult:
 # ── Stage 1 ──────────────────────────────────────────────────────────
 
 def evaluate_stage1(df: pd.DataFrame, market_cap: float | None,
-                    breakout_idx: int) -> tuple[list[RuleCheck], Box | None]:
+                    breakout_idx: int) -> tuple[list[RuleCheck], Box | None, VolumeContraction | None]:
+    """Returns (checks, box, volume_contraction)."""
     checks: list[RuleCheck] = []
 
     # 1.1 — Market cap. If we couldn't fetch a cap (rate limiting,
@@ -103,9 +111,7 @@ def evaluate_stage1(df: pd.DataFrame, market_cap: float | None,
         notes=cap_note,
     ))
 
-    # 1.2 — Above 20-week MA (use the bar BEFORE the breakout, since
-    # the trend filter is about whether the stock was in an uptrend
-    # going into the week we're evaluating)
+    # 1.2 — Above 20-week MA (evaluated on the bar BEFORE the breakout)
     ma = moving_average(df["Close"], config.TREND_MA_WEEKS)
     prev_close = float(df["Close"].iloc[breakout_idx - 1])
     prev_ma = float(ma.iloc[breakout_idx - 1]) if not pd.isna(ma.iloc[breakout_idx - 1]) else 0.0
@@ -116,17 +122,44 @@ def evaluate_stage1(df: pd.DataFrame, market_cap: float | None,
         threshold=prev_ma,
     ))
 
-    # 1.3 — Consolidation box exists
+    # 1.3 — Consolidation box (built from CLOSES, depth < 20%)
     box = detect_box(df, breakout_idx)
+    box_note = ""
+    if box:
+        box_note = f"depth {box.depth_pct:.1%}"
+    else:
+        box_note = "no qualifying box"
     checks.append(RuleCheck(
-        name=f"≥{config.CONSOLIDATION_MIN_WEEKS}wk consolidation box",
+        name=f"≥{config.CONSOLIDATION_MIN_WEEKS}wk box, depth <{config.CONSOLIDATION_MAX_DEPTH:.0%}",
         passed=box is not None,
         actual=float(box.weeks) if box else 0.0,
         threshold=float(config.CONSOLIDATION_MIN_WEEKS),
-        notes=f"range {box.range_pct:.1%}" if box else "no box",
+        notes=box_note,
     ))
 
-    # 1.4 — MACD line above signal pre-breakout
+    # 1.4 — Volume contraction across the box. Skipped if no box exists.
+    vc: VolumeContraction | None = None
+    if box is not None:
+        vc = check_volume_contraction(df, box)
+        contraction_note = (f"slope={vc.trend_slope:+.0f}, "
+                            f"red avg/up avg = {vc.avg_vol_down_weeks/max(vc.avg_vol_up_weeks,1):.2f}")
+        checks.append(RuleCheck(
+            name="Volume contraction in box",
+            passed=vc.passed,
+            actual=1.0 if vc.passed else 0.0,
+            threshold=1.0,
+            notes=contraction_note,
+        ))
+    else:
+        checks.append(RuleCheck(
+            name="Volume contraction in box",
+            passed=False,
+            actual=0.0,
+            threshold=1.0,
+            notes="no box to evaluate",
+        ))
+
+    # 1.5 — MACD line above signal pre-breakout
     line, sig, _ = macd(df["Close"])
     if breakout_idx >= 1 and not pd.isna(line.iloc[breakout_idx - 1]):
         ml = float(line.iloc[breakout_idx - 1])
@@ -144,7 +177,7 @@ def evaluate_stage1(df: pd.DataFrame, market_cap: float | None,
             notes="insufficient data",
         ))
 
-    return checks, box
+    return checks, box, vc
 
 
 # ── Stage 2 ──────────────────────────────────────────────────────────
@@ -178,9 +211,9 @@ def evaluate_stage2(metrics: BreakoutMetrics) -> list[RuleCheck]:
         ),
         # 2.3
         RuleCheck(
-            name=f"{metrics.weeks_lookback}-week high",
-            passed=metrics.is_n_week_high,
-            actual=1.0 if metrics.is_n_week_high else 0.0,
+            name=f"{metrics.weeks_lookback}-week high (by close)",
+            passed=metrics.is_n_week_high_by_close,
+            actual=1.0 if metrics.is_n_week_high_by_close else 0.0,
             threshold=1.0,
         ),
         # 2.4
@@ -215,9 +248,10 @@ def scan_ticker(ticker: str, df: pd.DataFrame,
         return result
 
     # Stage 1
-    stage1_checks, box = evaluate_stage1(df, market_cap, asof_idx)
+    stage1_checks, box, vc = evaluate_stage1(df, market_cap, asof_idx)
     result.stage1_checks = stage1_checks
     result.box = box
+    result.volume_contraction = vc
     result.stage1_passed = all(c.passed for c in stage1_checks)
 
     # Stage 2 only runs if box exists (otherwise we can't compute
@@ -228,5 +262,10 @@ def scan_ticker(ticker: str, df: pd.DataFrame,
         result.breakout_metrics = metrics
         result.stage2_checks = evaluate_stage2(metrics)
         result.stage2_passed = all(c.passed for c in result.stage2_checks)
+
+        # Risk assessment — uses the breakout close as the entry proxy.
+        # Final risk distance will be re-computed at Monday's actual open.
+        entry_proxy = float(df["Close"].iloc[asof_idx])
+        result.risk = assess_risk_distance(entry_proxy, box.stop_price)
 
     return result

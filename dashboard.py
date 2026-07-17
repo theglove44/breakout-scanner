@@ -168,6 +168,28 @@ HTML_TEMPLATE = r"""<!doctype html>
   }}
   .rule-section-label {{ font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px; }}
 
+  /* Risk verdict block — under box-viz */
+  .risk-block {{
+    background: var(--panel-2);
+    border-left: 3px solid var(--ink-mute);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 11px;
+  }}
+  .risk-block.risk-safe {{ border-left-color: var(--green); }}
+  .risk-block.risk-reduce {{ border-left-color: var(--amber); }}
+  .risk-block.risk-abort {{ border-left-color: var(--red); }}
+  .risk-label {{ color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; font-size: 9px; }}
+  .risk-distance {{ font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--ink); }}
+  .risk-safe .risk-distance {{ color: var(--green); }}
+  .risk-reduce .risk-distance {{ color: var(--amber); }}
+  .risk-abort .risk-distance {{ color: var(--red); }}
+  .risk-verdict {{ color: var(--ink-dim); text-align: right; font-size: 10px; }}
+
   /* Diagnostics section */
   details.diag {{
     margin-top: 48px;
@@ -323,10 +345,31 @@ def _render_card(r: dict, kind: str = "signal") -> str:
         <div class="box-viz">
           <div>Support<strong>${box['support']:.2f}</strong></div>
           <div>Resistance<strong>${box['resistance']:.2f}</strong></div>
-          <div>Stop (midpt)<strong>${box['midpoint_stop']:.2f}</strong></div>
+          <div>Stop (40%)<strong>${box['stop_price']:.2f}</strong></div>
           <div>Weeks<strong>{box['weeks']}</strong></div>
-          <div>Range<strong>{box['range_pct']:.1%}</strong></div>
+          <div>Depth<strong>{box['depth_pct']:.1%}</strong></div>
           <div>Last close<strong>${r['last_close']:.2f}</strong></div>
+        </div>"""
+
+    risk_block = ""
+    risk = r.get("risk")
+    if risk:
+        verdict = risk["verdict"]
+        verdict_class = {
+            "safe": "risk-safe",
+            "reduce": "risk-reduce",
+            "abort": "risk-abort",
+        }.get(verdict, "")
+        verdict_label = {
+            "safe": "Safe · full 6% allocation",
+            "reduce": "Reduce size · below 6%",
+            "abort": "Abort · risk too wide",
+        }.get(verdict, verdict)
+        risk_block = f"""
+        <div class="risk-block {verdict_class}">
+          <div class="risk-label">Entry-to-stop</div>
+          <div class="risk-distance">{risk['distance_pct']:.1%}</div>
+          <div class="risk-verdict">{verdict_label}</div>
         </div>"""
 
     return f"""
@@ -337,6 +380,7 @@ def _render_card(r: dict, kind: str = "signal") -> str:
       </div>
       <div class="card-company">{r['company']} · <span class="card-sector">{r['sector']} · {_fmt_money(r['market_cap_b'])}</span></div>
       {box_block}
+      {risk_block}
       <div class="rules">
         <div class="rule-section-label">Stage 1 · Eligibility</div>
         {s1_rules}
@@ -363,15 +407,19 @@ def _fmt_actual(c: dict) -> str:
     a, t = c["actual"], c["threshold"]
     if "market cap" in name:
         return f"${a/1e9:.0f}B"
+    if "box" in name and "depth" in name:
+        # "≥6wk box, depth <20%" — the actual is the box length in weeks
+        return f"{int(a)}wk" if a > 0 else "—"
+    if "volume contraction" in name:
+        return "pass" if a >= 1 else "fail"
+    if "high" in name:
+        return "yes" if a >= 1 else "no"
     if "%" in name or "above" in name or "gain" in name or "wick" in name or "ratio" in name or "volume" in name:
-        # Volume ratio displayed as ratio not percentage
-        if "volume" in name:
+        if "volume" in name and "contraction" not in name:
             return f"{a:.2f}x"
         return f"{a:.1%}"
     if "macd" in name:
         return f"{a:+.3f}"
-    if "high" in name:
-        return "yes" if a >= 1 else "no"
     if "consolidation" in name:
         return f"{int(a)}wk"
     if "ma" in name:
@@ -433,12 +481,14 @@ def render_dashboard(payload: dict, output_path: str = "output/dashboard.html"):
         f'<li><span>Min market cap</span><strong>${cfg["min_market_cap_b"]:.0f}B</strong></li>',
         f'<li><span>Trend MA</span><strong>{cfg["trend_ma_weeks"]} weeks</strong></li>',
         f'<li><span>Min consolidation</span><strong>{cfg["consolidation_min_weeks"]} weeks</strong></li>',
-        f'<li><span>Max box range</span><strong>{cfg["consolidation_max_range_pct"]:.0%}</strong></li>',
+        f'<li><span>Max box depth</span><strong>{cfg["consolidation_max_depth"]:.0%}</strong></li>',
         f'<li><span>Min above resistance</span><strong>{cfg["breakout_min_above_resistance"]:.0%}</strong></li>',
         f'<li><span>Weekly gain range</span><strong>{cfg["breakout_weekly_gain_range"][0]:.0%}–{cfg["breakout_weekly_gain_range"][1]:.0%}</strong></li>',
         f'<li><span>Max upper wick</span><strong>{cfg["max_upper_wick_ratio"]:.0%}</strong></li>',
-        f'<li><span>N-week high</span><strong>{cfg["multi_week_high_lookback"]} weeks</strong></li>',
+        f'<li><span>N-week high (close-based)</span><strong>{cfg["multi_week_high_lookback"]} weeks</strong></li>',
         f'<li><span>Min volume ratio</span><strong>{cfg["min_volume_ratio"]:.2f}x</strong></li>',
+        f'<li><span>Stop position in box</span><strong>{cfg["stop_loss_box_position"]:.0%}</strong></li>',
+        f'<li><span>Risk: safe / abort</span><strong>{cfg["risk_dist_safe"]:.0%} / {cfg["risk_dist_abort"]:.0%}</strong></li>',
     ])
 
     html = HTML_TEMPLATE.format(

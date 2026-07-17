@@ -39,8 +39,8 @@ def _serialise_result(r: ScanResult, meta: dict) -> dict:
             "support": r.box.support,
             "resistance": r.box.resistance,
             "weeks": r.box.weeks,
-            "range_pct": r.box.range_pct,
-            "midpoint_stop": r.box.midpoint_stop,
+            "depth_pct": r.box.depth_pct,
+            "stop_price": r.box.stop_price,
         }
     if r.breakout_metrics:
         m = r.breakout_metrics
@@ -48,8 +48,27 @@ def _serialise_result(r: ScanResult, meta: dict) -> dict:
             "close_above_resistance_pct": m.close_above_resistance_pct,
             "weekly_gain_pct": m.weekly_gain_pct,
             "upper_wick_ratio": m.upper_wick_ratio,
-            "is_n_week_high": m.is_n_week_high,
+            "is_n_week_high_by_close": m.is_n_week_high_by_close,
             "volume_ratio": m.volume_ratio,
+        }
+    if r.volume_contraction:
+        vc = r.volume_contraction
+        d["volume_contraction"] = {
+            "trend_slope": vc.trend_slope,
+            "trend_declining": vc.trend_declining,
+            "avg_vol_up_weeks": vc.avg_vol_up_weeks,
+            "avg_vol_down_weeks": vc.avg_vol_down_weeks,
+            "red_quieter": vc.red_quieter,
+            "n_up_weeks": vc.n_up_weeks,
+            "n_down_weeks": vc.n_down_weeks,
+            "passed": vc.passed,
+        }
+    if r.risk:
+        d["risk"] = {
+            "entry_price": r.risk.entry_price,
+            "stop_price": r.risk.stop_price,
+            "distance_pct": r.risk.distance_pct,
+            "verdict": r.risk.verdict,
         }
     return d
 
@@ -116,13 +135,16 @@ def run_full_scan(output_path: str = "output/scan_results.json",
             "min_market_cap_b": config.MIN_MARKET_CAP / 1e9,
             "trend_ma_weeks": config.TREND_MA_WEEKS,
             "consolidation_min_weeks": config.CONSOLIDATION_MIN_WEEKS,
-            "consolidation_max_range_pct": config.CONSOLIDATION_MAX_RANGE_PCT,
+            "consolidation_max_depth": config.CONSOLIDATION_MAX_DEPTH,
             "breakout_min_above_resistance": config.BREAKOUT_MIN_CLOSE_ABOVE_RESISTANCE,
             "breakout_weekly_gain_range": [config.BREAKOUT_MIN_WEEKLY_GAIN,
                                            config.BREAKOUT_MAX_WEEKLY_GAIN],
             "max_upper_wick_ratio": config.MAX_UPPER_WICK_RATIO,
             "multi_week_high_lookback": config.MULTI_WEEK_HIGH_LOOKBACK,
             "min_volume_ratio": config.MIN_VOLUME_RATIO,
+            "stop_loss_box_position": config.STOP_LOSS_BOX_POSITION,
+            "risk_dist_safe": config.RISK_DIST_SAFE,
+            "risk_dist_abort": config.RISK_DIST_ABORT,
         }
     }
 
